@@ -2,6 +2,7 @@ package usecase
 
 import (
 	productEntities "github.com/khalil-farashiani/products-service/internals/domain/product"
+	productUseCase "github.com/khalil-farashiani/products-service/internals/usecase/product"
 	"testing"
 )
 
@@ -17,7 +18,7 @@ func TestCreateProduct(t *testing.T) {
 		BrandID:     1,
 		Stock:       10,
 	}
-	err := usecases.CreateProduct(product)
+	productUseCase := productUseCase.NewProductUseCase()
 	if err != nil {
 		t.Errorf("Error while creating product, got: %v", err)
 	}
