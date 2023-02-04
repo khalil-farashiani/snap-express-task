@@ -30,8 +30,9 @@ func TestGetProductByID(t *testing.T) {
 	}
 	//mock the database
 	ctx := context.Background()
-	m.EXPECT().GetProductById(&ctx, 1).DoAndReturn(func(ctx *context.Context, id int64) *productEntities.Product {
-		return p
+	var Id int64 = 1
+	m.EXPECT().GetProductById(&ctx, Id).DoAndReturn(func(ctx *context.Context, id int64) (*productEntities.Product, error) {
+		return p, nil
 	}).AnyTimes()
 	productUseCase := productUseCase.NewProductUseCase(m)
 
@@ -45,11 +46,11 @@ func TestGetProductByID(t *testing.T) {
 	}
 
 	if result.ID != p.ID {
-		t.Errorf("Product ID does not match, expected: %d, got: %d", mockProduct.ID, result.ID)
+		t.Errorf("Product ID does not match, expected: %d, got: %d", p.ID, result.ID)
 	}
 
 	if result.Title != p.Title {
-		t.Errorf("Product title does not match, expected: %s, got: %s", mockProduct.Title, result.Title)
+		t.Errorf("Product title does not match, expected: %s, got: %s", p.Title, result.Title)
 	}
 
 	// Other fields can be tested similarly
