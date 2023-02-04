@@ -3,6 +3,7 @@ package usecase
 import (
 	productEntities "github.com/khalil-farashiani/products-service/internals/domain/product"
 	productUseCase "github.com/khalil-farashiani/products-service/internals/usecase/product"
+	"github.com/khalil-farashiani/products-service/mocks"
 	"testing"
 )
 
@@ -18,7 +19,10 @@ func TestCreateProduct(t *testing.T) {
 		BrandID:     1,
 		Stock:       10,
 	}
-	productUseCase := productUseCase.NewProductUseCase()
+	repo := &mocks.MockProductRepository{}
+	productUseCase := productUseCase.NewProductUseCase(repo)
+
+	err := productUseCase.CreateProduct(product)
 	if err != nil {
 		t.Errorf("Error while creating product, got: %v", err)
 	}
