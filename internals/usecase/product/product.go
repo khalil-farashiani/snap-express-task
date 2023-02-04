@@ -7,6 +7,7 @@ import (
 
 type ProductUseCase interface {
 	CreateProduct(product *productEntities.Product) error
+	GetByID(id int64) (*productEntities.Product, error)
 }
 
 type productUseCase struct {
@@ -26,4 +27,13 @@ func (u *productUseCase) CreateProduct(product *productEntities.Product) error {
 		return err
 	}
 	return nil
+}
+
+func (u *productUseCase) GetByID(id int64) (*productEntities.Product, error) {
+	ctx := context.Background()
+	p, err := u.repo.GetProductById(&ctx, id)
+	if err != nil {
+		return nil, err
+	}
+	return p, nil
 }
