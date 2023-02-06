@@ -51,11 +51,12 @@ func (mr *MockProductRepositoryMockRecorder) BulkStore(arg0, arg1 interface{}) *
 }
 
 // GetAllByLocation mocks base method.
-func (m *MockProductRepository) GetAllByLocation(arg0 *context.Context, arg1 location.Location, arg2 bool) []*product.Product {
+func (m *MockProductRepository) GetAllByLocation(arg0 *context.Context, arg1 location.Location, arg2 bool) ([]*product.Product, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetAllByLocation", arg0, arg1, arg2)
 	ret0, _ := ret[0].([]*product.Product)
-	return ret0
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
 }
 
 // GetAllByLocation indicates an expected call of GetAllByLocation.
@@ -65,11 +66,12 @@ func (mr *MockProductRepositoryMockRecorder) GetAllByLocation(arg0, arg1, arg2 i
 }
 
 // GetAllByVendor mocks base method.
-func (m *MockProductRepository) GetAllByVendor(arg0 *context.Context, arg1 int64) []*product.Product {
+func (m *MockProductRepository) GetAllByVendor(arg0 *context.Context, arg1 int64) ([]*product.Product, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetAllByVendor", arg0, arg1)
 	ret0, _ := ret[0].([]*product.Product)
-	return ret0
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
 }
 
 // GetAllByVendor indicates an expected call of GetAllByVendor.
@@ -94,11 +96,12 @@ func (mr *MockProductRepositoryMockRecorder) GetProductById(arg0, arg1 interface
 }
 
 // GetProductsByVendorIDAndSortByRating mocks base method.
-func (m *MockProductRepository) GetProductsByVendorIDAndSortByRating(arg0 *context.Context, arg1 int64) []*product.Product {
+func (m *MockProductRepository) GetProductsByVendorIDAndSortByRating(arg0 *context.Context, arg1 int64) ([]*product.Product, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetProductsByVendorIDAndSortByRating", arg0, arg1)
 	ret0, _ := ret[0].([]*product.Product)
-	return ret0
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
 }
 
 // GetProductsByVendorIDAndSortByRating indicates an expected call of GetProductsByVendorIDAndSortByRating.
@@ -133,4 +136,18 @@ func (m *MockProductRepository) UpdateProduct(arg0 *context.Context, arg1 *produ
 func (mr *MockProductRepositoryMockRecorder) UpdateProduct(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateProduct", reflect.TypeOf((*MockProductRepository)(nil).UpdateProduct), arg0, arg1)
+}
+
+// UpdateStockForMultipleProducts mocks base method.
+func (m *MockProductRepository) UpdateStockForMultipleProducts(arg0 *context.Context, arg1, arg2 []int64) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdateStockForMultipleProducts", arg0, arg1, arg2)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateStockForMultipleProducts indicates an expected call of UpdateStockForMultipleProducts.
+func (mr *MockProductRepositoryMockRecorder) UpdateStockForMultipleProducts(arg0, arg1, arg2 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateStockForMultipleProducts", reflect.TypeOf((*MockProductRepository)(nil).UpdateStockForMultipleProducts), arg0, arg1, arg2)
 }
