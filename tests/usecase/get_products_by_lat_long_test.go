@@ -1,7 +1,9 @@
 package usecase
 
 import (
+	"context"
 	"github.com/golang/mock/gomock"
+	"github.com/khalil-farashiani/products-service/internals/domain/location"
 	productEntities "github.com/khalil-farashiani/products-service/internals/domain/product"
 	productUseCase "github.com/khalil-farashiani/products-service/internals/usecase/product"
 	mock_product "github.com/khalil-farashiani/products-service/mocks"
@@ -22,7 +24,8 @@ func TestGetNearbyProducts(t *testing.T) {
 		{ID: 2, LocationID: 2},
 		{ID: 3, LocationID: 3},
 	}
-	mockProductRepo.EXPECT().GetAllByLocation(lat, long, sortByDistance).Return(products, nil)
+	ctx := context.TODO()
+	mockProductRepo.EXPECT().GetAllByLocation(&ctx, location.Location{Lat: 0, Lon: 0}, sortByDistance).Return(products, nil)
 
 	productUseCase := productUseCase.NewProductUseCase(mockProductRepo)
 	gotProducts, err := productUseCase.GetNearbyProducts(lat, long, sortByDistance)

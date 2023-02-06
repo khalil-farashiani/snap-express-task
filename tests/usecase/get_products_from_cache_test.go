@@ -1,6 +1,7 @@
 package usecase
 
 import (
+	"context"
 	"github.com/golang/mock/gomock"
 	productEntities "github.com/khalil-farashiani/products-service/internals/domain/product"
 	mock_product "github.com/khalil-farashiani/products-service/mocks"
@@ -24,7 +25,9 @@ func TestCacheGetProductsByVendor(t *testing.T) {
 	}
 
 	mockProductRepository := mock_product.NewMockProductRepository(ctrl)
-	mockProductRepository.EXPECT().GetAllByVendor(vendorID).Return(products, nil).Times(1)
+
+	ctx := context.TODO()
+	mockProductRepository.EXPECT().GetAllByVendor(&ctx, vendorID).Return(products, nil).Times(1)
 
 	cache := productUseCase.NewCache(mockProductRepository)
 	result, err := cache.GetProductsByVendor(vendorID)

@@ -52,7 +52,7 @@ func TestGetProductsByVendorIDAndSortByRating(t *testing.T) {
 
 	m := mock_product.NewMockProductRepository(ctrl)
 
-	mockProductRepository.On("GetProductsByVendorIDAndSortByRating", 1, true).Return([]*productEntities.Product{
+	m.On("GetProductsByVendorIDAndSortByRating", 1, true).Return([]*productEntities.Product{
 		{
 			ID:          1,
 			Title:       "product 1",

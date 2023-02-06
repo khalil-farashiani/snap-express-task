@@ -35,7 +35,7 @@ func TestCreateMultipleProductsFromFile(t *testing.T) {
 		}
 	}
 
-	mockProductRepository.EXPECT().Create(gomock.Any()).Times(len(products)).Return(nil)
+	mockProductRepository.EXPECT().BulkStore(gomock.Any()).Times(len(products)).Return(nil)
 
 	productUseCase := productUseCase.NewProductUseCase(mockProductRepository)
 	err = productUseCase.CreateMultipleProductsFromFile("test_products.txt")

@@ -1,6 +1,7 @@
 package usecase
 
 import (
+	"context"
 	"github.com/golang/mock/gomock"
 	productEntities "github.com/khalil-farashiani/products-service/internals/domain/product"
 	productUseCase "github.com/khalil-farashiani/products-service/internals/usecase/product"
@@ -26,8 +27,9 @@ func TestPurchaseProduct(t *testing.T) {
 	}
 
 	mockProductRepository := mock_product.NewMockProductRepository(ctrl)
-	mockProductRepository.EXPECT().GetProductByID(gomock.Eq(product.ID)).Return(product, nil)
-	mockProductRepository.EXPECT().UpdateProduct(gomock.Eq(product)).Return(nil)
+	ctx := context.TODO()
+	mockProductRepository.EXPECT().GetProductById(&ctx, gomock.Eq(product.ID)).Return(product, nil)
+	mockProductRepository.EXPECT().UpdateProduct(&ctx, gomock.Eq(product)).Return(nil)
 
 	productUseCase := productUseCase.NewProductUseCase(mockProductRepository)
 	err := productUseCase.PurchaseProduct(product.ID)
