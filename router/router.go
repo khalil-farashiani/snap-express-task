@@ -7,6 +7,11 @@ import (
 )
 
 func GetRouts(r *gin.Engine, store product.ProductUseCase) {
+	r.GET("/ping", func(c *gin.Context) {
+		c.JSON(200, gin.H{
+			"message": "pong",
+		})
+	})
 	r.POST("CreateProduct", v1.CreateProduct(store))
 	r.POST("GetNearByProducts", v1.GetNearByProducts(store))
 	r.GET("GetProductByID/:product_id", v1.GetProductByID(store))
