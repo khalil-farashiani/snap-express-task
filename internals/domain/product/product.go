@@ -12,6 +12,7 @@ type Product struct {
 	LocationID  int
 	BrandID     int
 	Stock       int
+	Distance    float64
 }
 
 func (p *Product) IncreaseStock(count int) {
