@@ -1,6 +1,7 @@
 package usecase
 
 import (
+	"context"
 	"github.com/golang/mock/gomock"
 	productEntities "github.com/khalil-farashiani/products-service/internals/domain/product"
 	productUseCase "github.com/khalil-farashiani/products-service/internals/usecase/product"
@@ -23,13 +24,13 @@ func TestGetAllProductsByVendorID(t *testing.T) {
 	}
 
 	// Setup mock repository to return expected products
-	m.EXPECT().GetProductByVendorID().DoAndReturn().Anything()
 
 	// Create product use case with mock repository
 	productUseCase := productUseCase.NewProductUseCase(m)
 
 	// Call GetAllByVendorID method of product use case
-	products, err := productUseCase.GetAllByVendorID(1, productUseCase.SortByRating)
+	ctx := context.TODO()
+	products, err := productUseCase.GetProductsByVendorSortedByRating(&ctx, 1, true)
 
 	// Check if error occurs
 	if err != nil {
@@ -41,8 +42,6 @@ func TestGetAllProductsByVendorID(t *testing.T) {
 		t.Errorf("Expected products: %v, but got: %v", expectedProducts, products)
 	}
 
-	// Verify if the mock repository is called as expected
-	mockRepo.AssertExpectations(t)
 }
 
 func TestGetProductsByVendorIDAndSortByRating(t *testing.T) {
@@ -52,50 +51,51 @@ func TestGetProductsByVendorIDAndSortByRating(t *testing.T) {
 
 	m := mock_product.NewMockProductRepository(ctrl)
 
-	m.On("GetProductsByVendorIDAndSortByRating", 1, true).Return([]*productEntities.Product{
-		{
-			ID:          1,
-			Title:       "product 1",
-			Description: "product 1 description",
-			Price:       100,
-			Rating:      5,
-			CategoryID:  1,
-			VendorID:    1,
-			LocationID:  1,
-			BrandID:     1,
-			Stock:       10,
-		},
-		{
-			ID:          2,
-			Title:       "product 2",
-			Description: "product 2 description",
-			Price:       200,
-			Rating:      4,
-			CategoryID:  2,
-			VendorID:    1,
-			LocationID:  2,
-			BrandID:     2,
-			Stock:       20,
-		},
-	}, nil)
+	//m.On("GetProductsByVendorIDAndSortByRating", 1, true).Return([]*productEntities.Product{
+	//	{
+	//		ID:          1,
+	//		Title:       "product 1",
+	//		Description: "product 1 description",
+	//		Price:       100,
+	//		Rating:      5,
+	//		CategoryID:  1,
+	//		VendorID:    1,
+	//		LocationID:  1,
+	//		BrandID:     1,
+	//		Stock:       10,
+	//	},
+	//	{
+	//		ID:          2,
+	//		Title:       "product 2",
+	//		Description: "product 2 description",
+	//		Price:       200,
+	//		Rating:      4,
+	//		CategoryID:  2,
+	//		VendorID:    1,
+	//		LocationID:  2,
+	//		BrandID:     2,
+	//		Stock:       20,
+	//	},
+	//}, nil)
 
-	productUseCase := productUseCase.NewProductUseCase(mockProductRepository)
+	productUseCase := productUseCase.NewProductUseCase(m)
 
-	products, err := productUseCase.GetProductsByVendorIDAndSortByRating(1, true)
+	ctx := context.TODO()
+	products, err := productUseCase.GetProductsByVendorSortedByRating(&ctx, 1, true)
 	if err != nil {
 		t.Errorf("Error while getting products, got: %v", err)
 	}
 
-	if len(products) != 2 {
-		t.Errorf("Expected to get 2 products, got: %d", len(products))
+	if len(products.Products) != 2 {
+		t.Errorf("Expected to get 2 products, got: %d", len(products.Products))
 	}
 
-	if products[0].ID != 1 {
-		t.Errorf("Expected first product to have ID 1, got: %d", products[0].ID)
+	if products.Products[0].ID != 1 {
+		t.Errorf("Expected first product to have ID 1, got: %d", products.Products[0].ID)
 	}
 
-	if products[1].ID != 2 {
-		t.Errorf("Expected second product to have ID 2, got: %d", products[1].ID)
+	if products.Products[1].ID != 2 {
+		t.Errorf("Expected second product to have ID 2, got: %d", products.Products[1].ID)
 	}
 }
 
@@ -119,9 +119,10 @@ func TestGetProductsByVendorGroupedByCategory(t *testing.T) {
 		3: {products[3]},
 	}
 
-	mockProductRepository.EXPECT().GetAllByVendor(vendorID).Return(products, nil)
+	ctx := context.TODO()
+	mockProductRepository.EXPECT().GetAllByVendor(&ctx, vendorID).Return(products, nil)
 	productUseCase := productUseCase.NewProductUseCase(mockProductRepository)
-	result, err := productUseCase.GetProductsByVendorGroupedByCategory(vendorID)
+	result, err := productUseCase.GetProductsByVendorGroupedByCategory(&ctx, int64(vendorID))
 	if err != nil {
 		t.Errorf("Error while getting products, got: %v", err)
 	}

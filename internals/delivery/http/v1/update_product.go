@@ -15,7 +15,7 @@ func UpdateProduct(useCase productUseCase.ProductUseCase) gin.HandlerFunc {
 			return
 		}
 		ctx := c.Request.Context()
-		err := useCase.Update(&ctx, int64(product.ID), product)
+		err := useCase.Update(&ctx, int64(product.ID), &product)
 		if err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
