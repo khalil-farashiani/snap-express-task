@@ -5,8 +5,8 @@ import (
 	"errors"
 )
 
-func (u *productUseCase) PurchaseProduct(productID int64) error {
-	product, err := u.GetByID(productID)
+func (p *productUseCase) PurchaseProduct(ctx *context.Context, productID int64) error {
+	product, err := p.GetByID(ctx, productID)
 	if err != nil {
 		return err
 	}
@@ -15,6 +15,5 @@ func (u *productUseCase) PurchaseProduct(productID int64) error {
 	}
 	product.DecreaseStock(1)
 
-	ctx := context.Background()
-	return u.repo.Update(&ctx, product)
+	return p.repo.Update(ctx, product)
 }

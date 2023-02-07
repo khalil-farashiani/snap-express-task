@@ -2,14 +2,17 @@ package product
 
 import (
 	"context"
-	productEntities "github.com/khalil-farashiani/products-service/internals/domain/product"
+	"github.com/khalil-farashiani/products-service/internals/dto"
 )
 
-func (u *productUseCase) CreateProduct(product *productEntities.Product) error {
-	ctx := context.Background()
-	err := u.repo.Store(&ctx, product)
+func (p *productUseCase) CreateProduct(ctx *context.Context, req dto.CreateProductRequest) (dto.CreateProductResponse, error) {
+	product := req.CreateProductRequestToProductEntity()
+	err := p.repo.Store(ctx, &product)
 	if err != nil {
-		return err
+		return dto.CreateProductResponse{}, err
 	}
-	return nil
+	return dto.CreateProductResponse{
+		Product: product,
+		Error:   "",
+	}, nil
 }
