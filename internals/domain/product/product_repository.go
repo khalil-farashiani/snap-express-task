@@ -14,4 +14,8 @@ type ProductRepository interface {
 	GetProductsByVendorIDAndSortByRating(*context.Context, int64) ([]*Product, error)
 	GetAllByLocation(*context.Context, location.Location, bool) ([]*Product, error)
 	UpdateStockForMultipleProducts(*context.Context, []int64, []int64) error
+	Update(*context.Context, *Product) error
+	GetAllByVendorGroupedByCategory(*context.Context, int64) (map[int][]*Product, error)
+	GetAll(*context.Context) ([]*Product, error)
+	GetLocationByID(*context.Context, int64) (location.Location, error)
 }
