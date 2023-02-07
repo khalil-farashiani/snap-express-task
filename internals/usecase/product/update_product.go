@@ -2,10 +2,10 @@ package product
 
 import (
 	"context"
-	productEntities "github.com/khalil-farashiani/products-service/internals/domain/product"
+	"github.com/khalil-farashiani/products-service/internals/dto"
 )
 
-func (p *productUseCase) Update(ctx *context.Context, id int64, updatedProduct *productEntities.Product) error {
+func (p *productUseCase) Update(ctx *context.Context, id int64, updatedProduct *dto.UpdateProductRequest) error {
 	currentProduct, err := p.GetByID(ctx, id)
 	if err != nil {
 		return err
