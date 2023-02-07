@@ -1,18 +1,18 @@
 package product
 
 type Product struct {
-	ID          int
-	Title       string
-	TitleFa     string
-	Description string
-	Price       int
-	Rating      int
-	CategoryID  int
-	VendorID    int
-	LocationID  int
-	BrandID     int
-	Stock       int
-	Distance    float64
+	ID          int     `bson:"_id"`
+	Title       string  `bson:"title"`
+	TitleFa     string  `bson:"title_fa"`
+	Description string  `bson:"description"`
+	Price       int     `bson:"price"`
+	Rating      int     `bson:"rating"`
+	CategoryID  int     `bson:"category_id"`
+	VendorID    int     `bson:"vendor_id"`
+	LocationID  int     `bson:"location_id"`
+	BrandID     int     `bson:"brand_id"`
+	Stock       int     `bson:"stock"`
+	Distance    float64 `bson:"distance"`
 }
 
 func (p *Product) IncreaseStock(count int) {

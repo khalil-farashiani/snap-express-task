@@ -12,7 +12,7 @@ type ProductUseCase interface {
 	GetProductsByVendorSortedByRating(ctx *context.Context, vendorID int64, sortAscending bool) (dto.GetProductsByVendorResponse, error)
 	GetProductsByVendorGroupedByCategory(ctx *context.Context, vendorID int64) (dto.GetProductsGroupedByCategoryResponse, error)
 	PurchaseProduct(ctx *context.Context, productID int64) error
-	Update(*context.Context, int64, dto.UpdateProductRequest) error
+	Update(*context.Context, int64, *dto.UpdateProductRequest) error
 	GetNearbyProducts(ctx *context.Context, req dto.GetNearbyProductsRequest) (dto.GetNearByProductsResponse, error)
 }
 
