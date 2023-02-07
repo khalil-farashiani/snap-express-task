@@ -32,7 +32,7 @@ func TestPurchaseProduct(t *testing.T) {
 	mockProductRepository.EXPECT().UpdateProduct(&ctx, gomock.Eq(product)).Return(nil)
 
 	productUseCase := productUseCase.NewProductUseCase(mockProductRepository)
-	err := productUseCase.PurchaseProduct(product.ID)
+	err := productUseCase.PurchaseProduct(int64(product.ID))
 	if err != nil {
 		t.Errorf("Error while purchasing product, got: %v", err)
 	}

@@ -1,6 +1,7 @@
 package usecase
 
 import (
+	"context"
 	"github.com/golang/mock/gomock"
 	productUseCase "github.com/khalil-farashiani/products-service/internals/usecase/product"
 	mock_product "github.com/khalil-farashiani/products-service/mocks"
@@ -17,7 +18,8 @@ func TestChangeStockForMultipleProducts(t *testing.T) {
 	productIDs := []int{1, 2, 3}
 	newStockValues := []int{10, 20, 30}
 
-	mockProductRepository.EXPECT().UpdateStockForMultipleProducts(productIDs, newStockValues).Return(nil)
+	ctx := context.TODO()
+	mockProductRepository.EXPECT().UpdateStockForMultipleProducts(&ctx, productIDs, newStockValues).Return(nil)
 
 	err := productUseCase.ChangeStockForMultipleProducts(productIDs, newStockValues)
 	if err != nil {
